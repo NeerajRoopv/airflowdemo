@@ -19,11 +19,11 @@ def pull_from_git(**kwargs):
 
 def create_file(**kwargs):
 	ti = kwargs['ti']
-	path_from_above = ti.xcom_pull(key='path_name')
+	path_from_above = os.chdir('/home/neeraj/airflow/gitrep/airflowdemo')
 	time=datetime.now()
 	current_time=time.strftime("%H:%M:%S")
 	filename="File:"+str(current_time)+".txt"
-	ti.xcom_push(key='filename',value='filename')
+	ti.xcom_push(key='filename',value=filename)
 	f=open(filename,"w")
 	f.write("test fill addition")
 	f.close()
@@ -31,7 +31,7 @@ def create_file(**kwargs):
 def push_to_git(**kwargs):
 
 	ti = kwargs['ti']
-	path_from_above = ti.xcom_pull(key='path_name')
+	path_from_above =os.chdir('/home/neeraj/airflow/gitrep/airflowdemo')
 	fname=ti.xcom_pull(key='filename')
 	repo=Repo(path_from_above)
 	repo.index.add([fname])
